@@ -36,8 +36,17 @@ pipeline {
 
 
         stage('Run dependency vulnerability scan') {
-            // If high or critical vulnerabilities are scanned, the pipeline will stop with a failure.
             steps {
+                // Print all vulnerabilities first.
+                sh '''
+                    trivy fs \
+                        --scanners vuln \
+                        --severity LOW,MEDIUM,HIGH,CRITICAL \
+                        --exit-code 0 \
+                        .
+                '''
+                
+                // Security gate: if high or critical vulnerabilities are scanned, the pipeline will stop with a failure.
                 sh '''
                      trivy fs \
                          --scanners vuln \
