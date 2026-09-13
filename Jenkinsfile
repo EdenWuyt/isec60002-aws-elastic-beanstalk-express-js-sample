@@ -36,10 +36,6 @@ pipeline {
 
 
         stage('Run dependency vulnerability scan') {
-            // Selects Trivy as the dependency vulnerability scan tool.
-            agent {
-                 docker {  image 'aquasec/trivy:latest'  }
-            }
             // If high or critical vulnerabilities are scanned, the pipeline will stop with a failure.
             steps {
                 sh '''
