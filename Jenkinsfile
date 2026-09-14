@@ -102,7 +102,7 @@ pipeline {
     // Archives the Trivy scan report
     post {
         always {
-            archiveArtifacts artifacts: 'trivy.txt'
+            archiveArtifacts artifacts: 'trivy-report.txt'
         }
     }
 } 
