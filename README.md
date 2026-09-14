@@ -6,7 +6,10 @@ This repository contains a sample Node.js web application built using [Express](
 
 See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
 
+## CI/CD pipeline
+
+A CI/CD pipeline for the application is defined in [Jenkinsfile](Jenkinsfile). The workflow includes dependency installation, dependency vulnerability scanning via Trivy, testing, Docker image build, and publication to Docker Hub.
+
 ## License
 
 This library is licensed under the MIT-0 License. See the LICENSE file.
-
