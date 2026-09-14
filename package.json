@@ -12,7 +12,6 @@
   },
   "license": "MIT-0",
   "dependencies": {
-    "express": "^4.22.2",
-    "next": "^13.5.11"
+    "express": "^4.22.2"
   }
 }
