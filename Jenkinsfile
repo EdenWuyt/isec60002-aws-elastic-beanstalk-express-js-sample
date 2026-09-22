@@ -22,7 +22,7 @@ pipeline {
     }
 
     stages {
-        stage('Install dependencies') {
+        stage('Install dependencies and run unit test') {
             // Uses Node.js 16 as the app's build and test environment as required.
             agent {
                 docker {  image 'node:16'  }
@@ -30,16 +30,7 @@ pipeline {
             steps {
                 echo '======== Install dependencies ========'
                 sh 'npm ci'
-            }
-        }
-
-        stage('Run unit tests') {
-            // Uses Node.js 16 as the app's build and test environment as required.
-            agent {
-                docker {  image 'node:16'  }
-            }
-            // Uses flag --if-present to prevent errors thrown because test and test:unit are not defined in scripts.
-            steps {
+                // Uses flag --if-present to prevent errors thrown when test or test:unit is not defined in scripts.
                 echo '======== Run unit tests if present ========'
                 sh '''
                     npm run test:unit --if-present
@@ -47,7 +38,6 @@ pipeline {
                 '''
             }
         }
-
 
         stage('Run dependency vulnerability scan') {
             steps {
