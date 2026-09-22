@@ -30,12 +30,8 @@ pipeline {
             steps {
                 echo '======== Install dependencies ========'
                 sh 'npm ci'
-                // Uses flag --if-present to prevent errors thrown when test or test:unit is not defined in scripts.
                 echo '======== Run unit tests if present ========'
-                sh '''
-                    npm run test:unit --if-present
-                    npm test --if-present
-                '''
+                sh 'npm run test:unit'
             }
         }
 
