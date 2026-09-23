@@ -9,7 +9,7 @@ pipeline {
         IMAGE_NAME='edenwucurtin/isec60002'
         // Uses Jenkins build number as image tag.
         IMAGE_TAG="${BUILD_NUMBER}"
-        TRIVY_REPORT='trivy-report.txt'
+        TRIVY_REPORT_FILENAME='trivy-report.txt'
     }
 
     options {
@@ -44,10 +44,10 @@ pipeline {
                     trivy fs \
                         --scanners vuln \
                         --severity LOW,MEDIUM,HIGH,CRITICAL \
-                        --output ${TRIVY_REPORT} \
+                        --output ${TRIVY_REPORT_FILENAME} \
                         --exit-code 0 \
                         .
-                    cat trivy-report.txt
+                    cat ${TRIVY_REPORT_FILENAME}
                 '''
                 
                 // Security gate: if high or critical vulnerabilities are scanned, the pipeline will stop with a failure.
@@ -89,7 +89,7 @@ pipeline {
     // Archives the Trivy scan report
     post {
         always {
-            archiveArtifacts artifacts: "${TRIVY_REPORT}"
+            archiveArtifacts artifacts: "${TRIVY_REPORT_FILENAME}"
         }
     }
 } 
