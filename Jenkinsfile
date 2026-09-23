@@ -9,6 +9,7 @@ pipeline {
         IMAGE_NAME='edenwucurtin/isec60002'
         // Uses Jenkins build number as image tag.
         IMAGE_TAG="${BUILD_NUMBER}"
+        TRIVY_REPORT='trivy-report.txt'
     }
 
     options {
@@ -30,7 +31,7 @@ pipeline {
             steps {
                 echo '======== Install dependencies ========'
                 sh 'npm ci'
-                echo '======== Run unit tests if present ========'
+                echo '======== Run unit tests ========'
                 sh 'npm run test:unit'
             }
         }
@@ -43,7 +44,7 @@ pipeline {
                     trivy fs \
                         --scanners vuln \
                         --severity LOW,MEDIUM,HIGH,CRITICAL \
-                        --output trivy-report.txt \
+                        --output ${TRIVY_REPORT} \
                         --exit-code 0 \
                         .
                     cat trivy-report.txt
@@ -88,7 +89,7 @@ pipeline {
     // Archives the Trivy scan report
     post {
         always {
-            archiveArtifacts artifacts: 'trivy-report.txt'
+            archiveArtifacts artifacts: "${TRIVY_REPORT}"
         }
     }
 } 
